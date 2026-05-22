@@ -33,10 +33,10 @@
 <!-- Complete confirmation modal -->
 <view wx:if="{{showCompleteModal}}" class="modal-mask">
   <view class="modal-content">
-    <view class="modal-title">确认完成？</view>
+    <view class="modal-title">此事项已完成了吗？</view>
     <view class="modal-actions">
-      <view class="modal-btn cancel" bindtap="onCompleteModalCancel">取消</view>
-      <view class="modal-btn confirm" bindtap="onCompleteModalConfirm">确认完成</view>
+      <view class="modal-btn reschedule" bindtap="onRescheduleClick">未完成，延期</view>
+      <view class="modal-btn confirm" bindtap="onCompleteModalConfirm">已完成</view>
     </view>
   </view>
 </view>

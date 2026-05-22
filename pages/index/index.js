@@ -124,12 +124,22 @@ Page({
     });
   },
 
+  // Click reschedule option
+  onRescheduleClick() {
+    this.setData({
+      showCompleteModal: false,
+      showRescheduleModal: true,
+      rescheduleDate: this.data.currentDate // Default to same date
+    });
+  },
+
   // Confirm complete
   onCompleteModalConfirm() {
     dbUtil.markAsCompleted(this.data.currentItemId, {
       success: () => {
         this.setData({
           showCompleteModal: false,
+          showRescheduleModal: false,
           currentItemId: null
         });
         this.loadItems();

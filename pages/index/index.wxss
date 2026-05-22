@@ -155,3 +155,8 @@
   background: #333;
   color: #fff;
 }
+
+.modal-btn.reschedule {
+  background: #FFE4D0;
+  color: #8B5A2B;
+}
