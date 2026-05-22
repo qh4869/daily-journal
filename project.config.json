@@ -1,0 +1,17 @@
+{
+  "cloudfunctionRoot": "cloudfunctions/",
+  "cloudbaseRoot": "",
+  "miniprogramRoot": "./",
+  "setting": {
+    "urlCheck": false,
+    "es6": true,
+    "enhance": true,
+    "postcss": true,
+    "minified": true
+  },
+  "appid": "your-appid",
+  "projectname": "daily-journal",
+  "libVersion": "2.19.4",
+  "compileType": "miniprogram",
+  "cloudfunctionTemplateRoot": "cloudfunctionTemplate/"
+}
