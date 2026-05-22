@@ -19,13 +19,16 @@ function getItemsByDate(date, callback) {
 
 /**
  * Add a new item
+ * Status defaults to 'completed' for today and past dates, 'pending' for future dates
  */
 function addItem(content, date, callback) {
   const userId = wx.getStorageSync('userId') || 'default';
+  const today = formatDate(new Date());
+  const status = date <= today ? 'completed' : 'pending';
   db.collection('items').add({
     data: {
       content: content,
-      status: 'pending',
+      status: status,
       date: date,
       userId: userId,
       createdAt: Date.now()
@@ -33,6 +36,16 @@ function addItem(content, date, callback) {
     success: callback.success,
     fail: callback.fail
   });
+}
+
+/**
+ * Format date to YYYY-MM-DD string
+ */
+function formatDate(date) {
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, '0');
+  const day = String(date.getDate()).padStart(2, '0');
+  return `${year}-${month}-${day}`;
 }
 
 /**
