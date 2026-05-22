@@ -88,6 +88,15 @@ Page({
     });
   },
 
+  // Refresh data based on current view mode
+  refreshData() {
+    if (this.data.viewMode === 'day') {
+      this.loadItems();
+    } else {
+      this.loadWeekItems();
+    }
+  },
+
   // Get dates for the week containing the given date
   getWeekDates(dateStr) {
     const date = new Date(dateStr);
@@ -227,7 +236,7 @@ Page({
           showRescheduleModal: false,
           currentItemId: null
         });
-        this.loadItems();
+        this.refreshData();
         wx.showToast({
           title: '已完成',
           icon: 'success'
@@ -275,7 +284,7 @@ Page({
           currentItemId: null,
           rescheduleDate: ''
         });
-        this.loadItems();
+        this.refreshData();
         wx.showToast({
           title: '已延期',
           icon: 'success'
@@ -316,7 +325,7 @@ Page({
           showDeleteModal: false,
           currentItemId: null
         });
-        this.loadItems();
+        this.refreshData();
         wx.showToast({
           title: '已删除',
           icon: 'success'
