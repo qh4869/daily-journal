@@ -1,0 +1,17 @@
+<view class="container">
+  <view class="form">
+    <textarea
+      class="input"
+      placeholder="输入事项内容..."
+      value="{{content}}"
+      bindinput="onInput"
+      auto-height
+      maxlength="500"
+      show-confirm-bar="{{false}}"
+    />
+  </view>
+  <view class="actions">
+    <view class="btn cancel" bindtap="onCancel">取消</view>
+    <view class="btn confirm" bindtap="onConfirm">确定</view>
+  </view>
+</view>
