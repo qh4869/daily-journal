@@ -13,7 +13,7 @@
   <!-- Items list -->
   <view class="items-list">
     <view class="item" wx:for="{{items}}" wx:key="_id">
-      <text class="item-content">{{item.content}}</text>
+      <text class="item-content" bindtap="onItemTap" data-id="{{item._id}}">{{item.content}}</text>
       <view wx:if="{{item.status === 'pending'}}" class="pending-tag" bindtap="onPendingTagTap" data-id="{{item._id}}">
         待完成
       </view>
@@ -51,6 +51,17 @@
     <view class="modal-actions">
       <view class="modal-btn cancel" bindtap="onRescheduleModalCancel">取消</view>
       <view class="modal-btn confirm" bindtap="onRescheduleModalConfirm">确定</view>
+    </view>
+  </view>
+</view>
+
+<!-- Delete confirmation modal -->
+<view wx:if="{{showDeleteModal}}" class="modal-mask">
+  <view class="modal-content">
+    <view class="modal-title">确认删除？</view>
+    <view class="modal-actions">
+      <view class="modal-btn cancel" bindtap="onDeleteModalCancel">取消</view>
+      <view class="modal-btn delete" bindtap="onDeleteModalConfirm">删除</view>
     </view>
   </view>
 </view>

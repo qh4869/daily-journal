@@ -8,6 +8,7 @@ Page({
     items: [],
     showCompleteModal: false,
     showRescheduleModal: false,
+    showDeleteModal: false,
     currentItemId: null,
     rescheduleDate: '',
     maxDate: ''
@@ -200,6 +201,47 @@ Page({
         console.error('Failed to reschedule:', err);
         wx.showToast({
           title: '操作失败',
+          icon: 'none'
+        });
+      }
+    });
+  },
+
+  // Tap on item (delete)
+  onItemTap(e) {
+    const itemId = e.currentTarget.dataset.id;
+    this.setData({
+      currentItemId: itemId,
+      showDeleteModal: true
+    });
+  },
+
+  // Cancel delete modal
+  onDeleteModalCancel() {
+    this.setData({
+      showDeleteModal: false,
+      currentItemId: null
+    });
+  },
+
+  // Confirm delete
+  onDeleteModalConfirm() {
+    dbUtil.deleteItem(this.data.currentItemId, {
+      success: () => {
+        this.setData({
+          showDeleteModal: false,
+          currentItemId: null
+        });
+        this.loadItems();
+        wx.showToast({
+          title: '已删除',
+          icon: 'success'
+        });
+      },
+      fail: (err) => {
+        console.error('Failed to delete:', err);
+        wx.showToast({
+          title: '删除失败',
           icon: 'none'
         });
       }

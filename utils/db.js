@@ -63,6 +63,16 @@ function rescheduleItem(itemId, newDate, callback) {
 }
 
 /**
+ * Delete a specific item
+ */
+function deleteItem(itemId, callback) {
+  db.collection('items').doc(itemId).remove({
+    success: callback.success,
+    fail: callback.fail
+  });
+}
+
+/**
  * Delete items older than 30 days
  */
 function deleteOldItems(cutoffDate, callback) {
@@ -83,5 +93,6 @@ module.exports = {
   addItem,
   markAsCompleted,
   rescheduleItem,
+  deleteItem,
   deleteOldItems
 };

@@ -173,3 +173,8 @@
   background: #FFE4D0;
   color: #8B5A2B;
 }
+
+.modal-btn.delete {
+  background: #FF6B6B;
+  color: #fff;
+}
