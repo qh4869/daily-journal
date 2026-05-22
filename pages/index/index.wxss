@@ -140,9 +140,17 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+  padding: 16rpx;
   padding-bottom: 16rpx;
   border-bottom: 1px solid #F0F0F0;
   margin-bottom: 16rpx;
+  cursor: pointer;
+  border-radius: 8rpx;
+  transition: background-color 0.2s ease;
+}
+
+.week-day-header:active {
+  background-color: #F5F5F5;
 }
 
 .week-day-name {

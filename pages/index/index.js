@@ -183,6 +183,17 @@ Page({
     this.loadWeekItems();
   },
 
+  // Tap on week day header - jump to day view
+  onWeekDayTap(e) {
+    const date = e.currentTarget.dataset.date;
+    this.setData({
+      currentDate: date,
+      viewMode: 'day'
+    });
+    this.updateDisplayDate();
+    this.loadItems();
+  },
+
   // Clean up items older than 30 days
   cleanupOldItems() {
     const cutoffDate = dateUtil.getThirtyDaysAgoDate();

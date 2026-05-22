@@ -55,7 +55,7 @@
   <!-- Week view -->
   <view class="week-view" wx:if="{{viewMode === 'week'}}">
     <view class="week-day" wx:for="{{weekDays}}" wx:key="date">
-      <view class="week-day-header">
+      <view class="week-day-header" catchtap="onWeekDayTap" data-date="{{item.date}}">
         <text class="week-day-name">{{item.dayName}}</text>
         <text class="week-day-date {{item.isToday ? 'today' : ''}}">{{item.dateStr}}</text>
       </view>
