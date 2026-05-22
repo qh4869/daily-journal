@@ -64,21 +64,9 @@
   margin-bottom: 20rpx;
   display: flex;
   align-items: flex-start;
-  justify-content: space-between;
+  gap: 12rpx;
   box-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.04);
   position: relative;
-  transition: all 0.2s ease;
-}
-
-.item.dragging {
-  opacity: 0.5;
-  transform: scale(1.02);
-  box-shadow: 0 8rpx 24rpx rgba(0, 0, 0, 0.15);
-  z-index: 100;
-}
-
-.item.drag-over {
-  border: 2rpx dashed #333;
 }
 
 .item::before {
@@ -94,7 +82,7 @@
 }
 
 .drag-handle {
-  font-size: 32rpx;
+  font-size: 36rpx;
   color: #CCC;
   margin-left: 20rpx;
   padding: 0 8rpx;

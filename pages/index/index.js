@@ -13,12 +13,7 @@ Page({
     showDeleteModal: false,
     currentItemId: null,
     rescheduleDate: '',
-    maxDate: '',
-    // Drag and drop state
-    draggingIndex: -1,
-    dragOverIndex: -1,
-    startY: 0,
-    itemHeight: 0
+    maxDate: ''
   },
 
   onLoad() {
@@ -346,88 +341,73 @@ Page({
     });
   },
 
-  // Long press to start dragging
-  onItemLongPress(e) {
-    const index = e.currentTarget.dataset.index;
-    const items = this.data.items;
-    const query = wx.createSelectorQuery();
-    query.select(`.item:nth-child(${index + 1})`).boundingClientRect();
-    query.exec(res => {
-      if (res[0]) {
-        this.setData({
-          draggingIndex: index,
-          itemHeight: res[0].height,
-          startY: e.touches[0].clientY
-        });
-        wx.vibrateShort({ type: 'light' });
-      }
-    });
+  // Start dragging
+  onDragStart(e) {
+    const index = parseInt(e.currentTarget.dataset.index);
+    const startY = e.touches[0].clientY;
+    this.dragState = {
+      dragging: true,
+      startIndex: index,
+      currentIndex: index,
+      startY: startY
+    };
+    wx.vibrateShort({ type: 'light' });
   },
 
-  // Touch start
-  onItemTouchStart(e) {
-    const index = e.currentTarget.dataset.index;
-    this.setData({
-      dragStartY: e.touches[0].clientY,
-      dragStartIndex: index
-    });
-  },
-
-  // Touch move - detect drag over other items
-  onItemTouchMove(e) {
-    if (this.data.draggingIndex === -1) return;
+  // Drag move
+  onDragMove(e) {
+    if (!this.dragState || !this.dragState.dragging) return;
 
     const touchY = e.touches[0].clientY;
-    const deltaY = touchY - this.data.startY;
-    const currentIndex = this.data.draggingIndex;
-    const moveDistance = Math.abs(deltaY);
-    const itemHeight = this.data.itemHeight || 100;
+    const deltaY = touchY - this.dragState.startY;
+    const currentIndex = this.dragState.currentIndex;
 
-    // Calculate which item we're hovering over
-    if (moveDistance > itemHeight / 3) {
+    // Move threshold
+    const threshold = 60; // rpx converted to px approximately
+
+    if (Math.abs(deltaY) > threshold) {
       const newIndex = deltaY > 0 ? currentIndex + 1 : currentIndex - 1;
+      const items = this.data.items;
 
-      if (newIndex >= 0 && newIndex < this.data.items.length && newIndex !== currentIndex) {
-        const items = this.data.items;
+      if (newIndex >= 0 && newIndex < items.length && newIndex !== currentIndex) {
+        // Swap items
         const itemToMove = items[currentIndex];
         items.splice(currentIndex, 1);
         items.splice(newIndex, 0, itemToMove);
 
-        this.setData({
-          items: items,
-          draggingIndex: newIndex,
-          startY: touchY
-        });
+        this.setData({ items });
+        this.dragState.currentIndex = newIndex;
+        this.dragState.startY = touchY;
       }
     }
   },
 
-  // Touch end - save the new order
-  onItemTouchEnd(e) {
-    if (this.data.draggingIndex === -1) return;
+  // End dragging
+  onDragEnd(e) {
+    if (!this.dragState || !this.dragState.dragging) return;
 
-    // Save the new order to database
     const items = this.data.items;
     const updates = items.map((item, index) => ({
       id: item._id,
       order: index * 1000
     }));
 
+    // Save order to database
     dbUtil.batchUpdateOrders(updates, {
       success: () => {
         console.log('Order saved');
       },
       fail: (err) => {
         console.error('Failed to save order:', err);
-        // Refresh to get correct order
-        this.loadItems();
       }
     });
 
-    this.setData({
-      draggingIndex: -1,
-      dragOverIndex: -1
-    });
+    this.dragState = {
+      dragging: false,
+      startIndex: -1,
+      currentIndex: -1,
+      startY: 0
+    };
   },
 
   // After adding item comes back
