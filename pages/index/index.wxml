@@ -10,8 +10,14 @@
     </view>
   </view>
 
-  <!-- Items list -->
-  <view class="items-list">
+  <!-- View toggle -->
+  <view class="view-toggle">
+    <view class="toggle-btn {{viewMode === 'day' ? 'active' : ''}}" bindtap="switchToDayView">日视图</view>
+    <view class="toggle-btn {{viewMode === 'week' ? 'active' : ''}}" bindtap="switchToWeekView">周视图</view>
+  </view>
+
+  <!-- Day view -->
+  <view class="items-list" wx:if="{{viewMode === 'day'}}">
     <view class="item" wx:for="{{items}}" wx:key="_id">
       <text class="item-content" bindtap="onItemTap" data-id="{{item._id}}">{{item.content}}</text>
       <view wx:if="{{item.status === 'pending'}}" class="pending-tag" bindtap="onPendingTagTap" data-id="{{item._id}}">
@@ -20,6 +26,27 @@
     </view>
     <view wx:if="{{items.length === 0}}" class="empty-state">
       今天还没有记录事项
+    </view>
+  </view>
+
+  <!-- Week view -->
+  <view class="week-view" wx:if="{{viewMode === 'week'}}">
+    <view class="week-day" wx:for="{{weekDays}}" wx:key="date">
+      <view class="week-day-header">
+        <text class="week-day-name">{{item.dayName}}</text>
+        <text class="week-day-date {{item.isToday ? 'today' : ''}}">{{item.dateStr}}</text>
+      </view>
+      <view class="week-day-items">
+        <view class="week-item" wx:for="{{item.items}}" wx:for-item="dayItem" wx:key="_id">
+          <text class="week-item-content" bindtap="onItemTap" data-id="{{dayItem._id}}">{{dayItem.content}}</text>
+          <view wx:if="{{dayItem.status === 'pending'}}" class="pending-tag" bindtap="onPendingTagTap" data-id="{{dayItem._id}}">
+            待完成
+          </view>
+        </view>
+        <view wx:if="{{item.items.length === 0}}" class="empty-day">
+          无事项
+        </view>
+      </view>
     </view>
   </view>
 

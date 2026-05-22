@@ -5,7 +5,9 @@ Page({
   data: {
     currentDate: dateUtil.getTodayDate(),
     displayDate: '',
+    viewMode: 'day', // 'day' or 'week'
     items: [],
+    weekDays: [],
     showCompleteModal: false,
     showRescheduleModal: false,
     showDeleteModal: false,
@@ -54,6 +56,78 @@ Page({
     });
   },
 
+  // Load items for current week
+  loadWeekItems() {
+    const weekDates = this.getWeekDates(this.data.currentDate);
+    const weekDaysData = weekDates.map(date => {
+      const dateObj = new Date(date);
+      const dayNames = ['周日', '周一', '周二', '周三', '周四', '周五', '周六'];
+      return {
+        date: date,
+        dayName: dayNames[dateObj.getDay()],
+        dateStr: `${dateObj.getMonth() + 1}/${dateObj.getDate()}`,
+        isToday: date === dateUtil.getTodayDate(),
+        items: []
+      };
+    });
+
+    this.setData({ weekDays: weekDaysData });
+
+    // Load items for each day in the week
+    weekDates.forEach((date, index) => {
+      dbUtil.getItemsByDate(date, {
+        success: (res) => {
+          const weekDays = this.data.weekDays;
+          weekDays[index].items = res.data;
+          this.setData({ weekDays });
+        },
+        fail: (err) => {
+          console.error(`Failed to load items for ${date}:`, err);
+        }
+      });
+    });
+  },
+
+  // Get dates for the week containing the given date
+  getWeekDates(dateStr) {
+    const date = new Date(dateStr);
+    const dayOfWeek = date.getDay();
+    const weekStart = new Date(date);
+    weekStart.setDate(date.getDate() - dayOfWeek); // Start from Sunday
+
+    const dates = [];
+    for (let i = 0; i < 7; i++) {
+      const d = new Date(weekStart);
+      d.setDate(weekStart.getDate() + i);
+      dates.push(dateUtil.formatDate(d));
+    }
+    return dates;
+  },
+
+  // Update display date for week view
+  updateWeekDisplayDate() {
+    const weekDates = this.getWeekDates(this.data.currentDate);
+    const startDate = new Date(weekDates[0]);
+    const endDate = new Date(weekDates[6]);
+    this.setData({
+      displayDate: `${startDate.getMonth() + 1}月${startDate.getDate()}日 - ${endDate.getMonth() + 1}月${endDate.getDate()}日`
+    });
+  },
+
+  // Switch to day view
+  switchToDayView() {
+    this.setData({ viewMode: 'day' });
+    this.updateDisplayDate();
+    this.loadItems();
+  },
+
+  // Switch to week view
+  switchToWeekView() {
+    this.setData({ viewMode: 'week' });
+    this.updateWeekDisplayDate();
+    this.loadWeekItems();
+  },
+
   // Clean up items older than 30 days
   cleanupOldItems() {
     const cutoffDate = dateUtil.getThirtyDaysAgoDate();
@@ -67,10 +141,10 @@ Page({
     });
   },
 
-  // Navigate to previous day
+  // Navigate to previous day/week
   onPrevDay() {
-    const prevDate = dateUtil.getDateOffset(this.data.currentDate, -1);
-    // Don't allow going past 30 days ago
+    const offset = this.data.viewMode === 'week' ? -7 : -1;
+    const prevDate = dateUtil.getDateOffset(this.data.currentDate, offset);
     const cutoffDate = dateUtil.getThirtyDaysAgoDate();
     if (prevDate < cutoffDate) {
       wx.showToast({
@@ -80,14 +154,19 @@ Page({
       return;
     }
     this.setData({ currentDate: prevDate });
-    this.updateDisplayDate();
-    this.loadItems();
+    if (this.data.viewMode === 'day') {
+      this.updateDisplayDate();
+      this.loadItems();
+    } else {
+      this.updateWeekDisplayDate();
+      this.loadWeekItems();
+    }
   },
 
-  // Navigate to next day
+  // Navigate to next day/week
   onNextDay() {
-    const nextDate = dateUtil.getDateOffset(this.data.currentDate, 1);
-    // Don't allow going more than 30 days ahead
+    const offset = this.data.viewMode === 'week' ? 7 : 1;
+    const nextDate = dateUtil.getDateOffset(this.data.currentDate, offset);
     const maxDate = dateUtil.getDateOffset(new Date(), 30);
     if (nextDate > maxDate) {
       wx.showToast({
@@ -97,8 +176,13 @@ Page({
       return;
     }
     this.setData({ currentDate: nextDate });
-    this.updateDisplayDate();
-    this.loadItems();
+    if (this.data.viewMode === 'day') {
+      this.updateDisplayDate();
+      this.loadItems();
+    } else {
+      this.updateWeekDisplayDate();
+      this.loadWeekItems();
+    }
   },
 
   // Add new item
@@ -250,6 +334,10 @@ Page({
 
   // After adding item comes back
   onShow() {
-    this.loadItems();
+    if (this.data.viewMode === 'day') {
+      this.loadItems();
+    } else {
+      this.loadWeekItems();
+    }
   }
 });
