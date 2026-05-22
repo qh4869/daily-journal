@@ -16,3 +16,21 @@ page::before {
   opacity: 0.03;
   z-index: 0;
 }
+
+/* Optional: Add subtle paper texture using CSS pattern */
+page::after {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  pointer-events: none;
+  opacity: 0.5;
+  z-index: 0;
+  background-image: repeating-linear-gradient(
+    transparent,
+    transparent 29px,
+    rgba(0, 0, 0, 0.02) 30px
+  );
+}
