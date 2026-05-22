@@ -10,7 +10,7 @@ function getItemsByDate(date, callback) {
       date: date,
       userId: userId
     })
-    .orderBy('createdAt', 'asc')
+    .orderBy('order', 'asc')
     .get({
       success: callback.success,
       fail: callback.fail
@@ -21,7 +21,7 @@ function getItemsByDate(date, callback) {
  * Add a new item
  * Status defaults to 'completed' for today and past dates, 'pending' for future dates
  */
-function addItem(content, date, callback) {
+function addItem(content, date, order, callback) {
   const userId = wx.getStorageSync('userId') || 'default';
   const today = formatDate(new Date());
   const status = date <= today ? 'completed' : 'pending';
@@ -31,6 +31,7 @@ function addItem(content, date, callback) {
       status: status,
       date: date,
       userId: userId,
+      order: order !== undefined ? order : Date.now(),
       createdAt: Date.now()
     },
     success: callback.success,
@@ -101,11 +102,42 @@ function deleteOldItems(cutoffDate, callback) {
     });
 }
 
+/**
+ * Update item order
+ */
+function updateItemOrder(itemId, order, callback) {
+  db.collection('items').doc(itemId).update({
+    data: {
+      order: order
+    },
+    success: callback.success,
+    fail: callback.fail
+  });
+}
+
+/**
+ * Batch update item orders
+ */
+function batchUpdateOrders(updates, callback) {
+  const db = wx.cloud.database();
+  const tasks = updates.map(update => {
+    return db.collection('items').doc(update.id).update({
+      data: { order: update.order }
+    });
+  });
+
+  Promise.all(tasks)
+    .then(() => callback.success && callback.success())
+    .catch(err => callback.fail && callback.fail(err));
+}
+
 module.exports = {
   getItemsByDate,
   addItem,
   markAsCompleted,
   rescheduleItem,
   deleteItem,
-  deleteOldItems
+  deleteOldItems,
+  updateItemOrder,
+  batchUpdateOrders
 };

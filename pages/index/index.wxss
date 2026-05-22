@@ -67,6 +67,18 @@
   justify-content: space-between;
   box-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.04);
   position: relative;
+  transition: all 0.2s ease;
+}
+
+.item.dragging {
+  opacity: 0.5;
+  transform: scale(1.02);
+  box-shadow: 0 8rpx 24rpx rgba(0, 0, 0, 0.15);
+  z-index: 100;
+}
+
+.item.drag-over {
+  border: 2rpx dashed #333;
 }
 
 .item::before {
@@ -79,6 +91,14 @@
   background: linear-gradient(135deg, rgba(0,0,0,0.02) 0%, rgba(0,0,0,0) 100%);
   pointer-events: none;
   border-radius: 12rpx;
+}
+
+.drag-handle {
+  font-size: 32rpx;
+  color: #CCC;
+  margin-left: 20rpx;
+  padding: 0 8rpx;
+  user-select: none;
 }
 
 .item-content {

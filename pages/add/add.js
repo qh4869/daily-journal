@@ -38,7 +38,7 @@ Page({
       title: '保存中...'
     });
 
-    dbUtil.addItem(content, this.data.date, {
+    dbUtil.addItem(content, this.data.date, Date.now(), {
       success: () => {
         wx.hideLoading();
         wx.showToast({
