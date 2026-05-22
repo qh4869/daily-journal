@@ -106,6 +106,16 @@
   margin-left: 20rpx;
 }
 
+.completed-tag {
+  padding: 8rpx 20rpx;
+  background: #E8F5E9;
+  border-radius: 20rpx;
+  font-size: 24rpx;
+  color: #4CAF50;
+  white-space: nowrap;
+  margin-left: 20rpx;
+}
+
 .empty-state {
   text-align: center;
   padding: 100rpx 0;

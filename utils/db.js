@@ -63,6 +63,19 @@ function markAsCompleted(itemId, callback) {
 }
 
 /**
+ * Update item status to pending
+ */
+function markAsPending(itemId, callback) {
+  db.collection('items').doc(itemId).update({
+    data: {
+      status: 'pending'
+    },
+    success: callback.success,
+    fail: callback.fail
+  });
+}
+
+/**
  * Reschedule item to a new date
  */
 function rescheduleItem(itemId, newDate, callback) {
@@ -163,6 +176,7 @@ module.exports = {
   getItemsByDate,
   addItem,
   markAsCompleted,
+  markAsPending,
   rescheduleItem,
   deleteItem,
   deleteOldItems,

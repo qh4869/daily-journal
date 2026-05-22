@@ -29,6 +29,9 @@
       <view wx:if="{{item.status === 'pending'}}" class="pending-tag" catchtap="onPendingTagTap" data-id="{{item._id}}">
         待完成
       </view>
+      <view wx:if="{{item.status === 'completed'}}" class="completed-tag" catchtap="onCompletedTagTap" data-id="{{item._id}}">
+        已完成
+      </view>
     </view>
     <view wx:if="{{items.length === 0}}" class="empty-state">
       今天还没有记录事项
@@ -109,6 +112,17 @@
     <view class="modal-actions">
       <view class="modal-btn cancel" bindtap="onDeleteModalCancel">取消</view>
       <view class="modal-btn delete" bindtap="onDeleteModalConfirm">删除</view>
+    </view>
+  </view>
+</view>
+
+<!-- Mark as pending modal -->
+<view wx:if="{{showPendingModal}}" class="modal-mask">
+  <view class="modal-content">
+    <view class="modal-title">标记为未完成？</view>
+    <view class="modal-actions">
+      <view class="modal-btn cancel" bindtap="onPendingModalCancel">取消</view>
+      <view class="modal-btn confirm" bindtap="onPendingModalConfirm">确定</view>
     </view>
   </view>
 </view>

@@ -12,6 +12,7 @@ Page({
     showCompleteModal: false,
     showRescheduleModal: false,
     showDeleteModal: false,
+    showPendingModal: false,
     currentItemId: null,
     rescheduleDate: '',
     maxDate: ''
@@ -252,6 +253,52 @@ Page({
     this.setData({
       currentItemId: itemId,
       showCompleteModal: true
+    });
+  },
+
+  // Tap on completed tag
+  onCompletedTagTap(e) {
+    const itemId = e.currentTarget.dataset.id;
+    this.setData({
+      currentItemId: itemId,
+      showPendingModal: true
+    });
+  },
+
+  // Cancel pending modal
+  onPendingModalCancel() {
+    this.setData({
+      showPendingModal: false,
+      currentItemId: null
+    });
+  },
+
+  // Confirm mark as pending
+  onPendingModalConfirm() {
+    const today = dateUtil.getTodayDate();
+    const currentDate = this.data.currentDate;
+
+    // If marking as pending on today or past date, change status only
+    // If on future date, already pending, nothing to do
+    dbUtil.markAsPending(this.data.currentItemId, {
+      success: () => {
+        this.setData({
+          showPendingModal: false,
+          currentItemId: null
+        });
+        this.refreshData();
+        wx.showToast({
+          title: '已标记为未完成',
+          icon: 'success'
+        });
+      },
+      fail: (err) => {
+        console.error('Failed to mark as pending:', err);
+        wx.showToast({
+          title: '操作失败',
+          icon: 'none'
+        });
+      }
     });
   },
 
