@@ -35,6 +35,20 @@
     </view>
   </view>
 
+  <!-- Pending items section (only in day view) -->
+  <view class="pending-section" wx:if="{{viewMode === 'day' && pendingItems.length > 0}}">
+    <view class="pending-section-header">
+      <text class="pending-section-title">全部待办事项</text>
+      <text class="pending-section-count">({{pendingItems.length}})</text>
+    </view>
+    <view class="pending-list">
+      <view class="pending-item" wx:for="{{pendingItems}}" wx:key="_id" catchtap="onPendingItemClick" data-date="{{item.date}}">
+        <text class="pending-item-content">{{item.content}}</text>
+        <text class="pending-item-date">{{item.dateStr}}</text>
+      </view>
+    </view>
+  </view>
+
   <!-- Week view -->
   <view class="week-view" wx:if="{{viewMode === 'week'}}">
     <view class="week-day" wx:for="{{weekDays}}" wx:key="date">

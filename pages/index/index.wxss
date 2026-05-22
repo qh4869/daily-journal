@@ -186,6 +186,62 @@
   font-size: 24rpx;
 }
 
+/* Pending items section */
+.pending-section {
+  margin-top: 40rpx;
+  padding-top: 30rpx;
+  border-top: 1px solid #E5E0D8;
+  padding-bottom: 120rpx;
+}
+
+.pending-section-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20rpx;
+}
+
+.pending-section-title {
+  font-size: 28rpx;
+  font-weight: 500;
+  color: #333;
+}
+
+.pending-section-count {
+  font-size: 24rpx;
+  color: #999;
+  margin-left: 8rpx;
+}
+
+.pending-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16rpx;
+}
+
+.pending-item {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  padding: 20rpx;
+  background: #FFFAF5;
+  border-left: 4rpx solid #FFE4D0;
+  border-radius: 8rpx;
+}
+
+.pending-item-content {
+  flex: 1;
+  font-size: 26rpx;
+  color: #333;
+  line-height: 1.6;
+  margin-right: 20rpx;
+}
+
+.pending-item-date {
+  font-size: 24rpx;
+  color: #8B5A2B;
+  white-space: nowrap;
+}
+
 /* Add button */
 .add-btn {
   position: fixed;

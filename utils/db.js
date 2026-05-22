@@ -131,6 +131,34 @@ function batchUpdateOrders(updates, callback) {
     .catch(err => callback.fail && callback.fail(err));
 }
 
+/**
+ * Get all pending items
+ */
+function getAllPendingItems(callback) {
+  const userId = wx.getStorageSync('userId') || 'default';
+  const cutoffDate = dateToYYYYMMDD(new Date());
+  // Get items from today onwards with pending status
+  db.collection('items')
+    .where({
+      status: 'pending',
+      userId: userId
+    })
+    .orderBy('date', 'asc')
+    .orderBy('order', 'asc')
+    .limit(100)
+    .get({
+      success: callback.success,
+      fail: callback.fail
+    });
+}
+
+function dateToYYYYMMDD(date) {
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, '0');
+  const day = String(date.getDate()).padStart(2, '0');
+  return `${year}-${month}-${day}`;
+}
+
 module.exports = {
   getItemsByDate,
   addItem,
@@ -139,5 +167,6 @@ module.exports = {
   deleteItem,
   deleteOldItems,
   updateItemOrder,
-  batchUpdateOrders
+  batchUpdateOrders,
+  getAllPendingItems
 };

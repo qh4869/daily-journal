@@ -7,6 +7,7 @@ Page({
     displayDate: '',
     viewMode: 'day', // 'day' or 'week'
     items: [],
+    pendingItems: [],
     weekDays: [],
     showCompleteModal: false,
     showRescheduleModal: false,
@@ -19,6 +20,7 @@ Page({
   onLoad() {
     this.updateDisplayDate();
     this.loadItems();
+    this.loadPendingItems();
     this.cleanupOldItems();
     this.setMaxDate();
   },
@@ -92,9 +94,51 @@ Page({
   refreshData() {
     if (this.data.viewMode === 'day') {
       this.loadItems();
-    } else {
-      this.loadWeekItems();
     }
+    this.loadPendingItems();
+  },
+
+  // Load all pending items
+  loadPendingItems() {
+    dbUtil.getAllPendingItems({
+      success: (res) => {
+        const pendingItems = res.data.map(item => ({
+          ...item,
+          dateStr: this.formatPendingDate(item.date)
+        }));
+        this.setData({ pendingItems });
+      },
+      fail: (err) => {
+        console.error('Failed to load pending items:', err);
+      }
+    });
+  },
+
+  // Format date for pending item display
+  formatPendingDate(dateStr) {
+    const date = new Date(dateStr);
+    const month = date.getMonth() + 1;
+    const day = date.getDate();
+    const weekdays = ['周日', '周一', '周二', '周三', '周四', '周五', '周六'];
+    const weekday = weekdays[date.getDay()];
+    const today = dateUtil.getTodayDate();
+    const tomorrow = dateUtil.getDateOffset(today, 1);
+
+    if (dateStr === today) {
+      return '今天';
+    } else if (dateStr === tomorrow) {
+      return '明天';
+    } else {
+      return `${month}月${day}日 ${weekday}`;
+    }
+  },
+
+  // Click on pending item - jump to that date
+  onPendingItemClick(e) {
+    const date = e.currentTarget.dataset.date;
+    this.setData({ currentDate: date });
+    this.updateDisplayDate();
+    this.loadItems();
   },
 
   // Get dates for the week containing the given date
@@ -128,6 +172,7 @@ Page({
     this.setData({ viewMode: 'day' });
     this.updateDisplayDate();
     this.loadItems();
+    this.loadPendingItems();
   },
 
   // Switch to week view
