@@ -1,0 +1,157 @@
+.container {
+  min-height: 100vh;
+  padding: 20rpx;
+  box-sizing: border-box;
+}
+
+/* Date navigation */
+.date-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20rpx 0;
+  margin-bottom: 30rpx;
+  border-bottom: 1px solid #E5E0D8;
+}
+
+.date-btn {
+  width: 60rpx;
+  height: 60rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 36rpx;
+  color: #666;
+}
+
+.date-display {
+  font-size: 32rpx;
+  font-weight: 500;
+  color: #333;
+}
+
+/* Items list */
+.items-list {
+  min-height: 60vh;
+}
+
+.item {
+  background: #FFFFFF;
+  border-radius: 12rpx;
+  padding: 24rpx;
+  margin-bottom: 20rpx;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  box-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.04);
+}
+
+.item-content {
+  flex: 1;
+  font-size: 28rpx;
+  color: #333;
+  line-height: 1.6;
+}
+
+.pending-tag {
+  padding: 8rpx 20rpx;
+  background: #FFE4D0;
+  border-radius: 20rpx;
+  font-size: 24rpx;
+  color: #8B5A2B;
+  white-space: nowrap;
+  margin-left: 20rpx;
+}
+
+.empty-state {
+  text-align: center;
+  padding: 100rpx 0;
+  color: #999;
+  font-size: 28rpx;
+}
+
+/* Add button */
+.add-btn {
+  position: fixed;
+  bottom: 40rpx;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #333;
+  border-radius: 50rpx;
+  padding: 24rpx 60rpx;
+  display: flex;
+  align-items: center;
+  box-shadow: 0 4rpx 16rpx rgba(0, 0, 0, 0.15);
+}
+
+.add-icon {
+  font-size: 40rpx;
+  color: #fff;
+  margin-right: 12rpx;
+}
+
+.add-text {
+  font-size: 28rpx;
+  color: #fff;
+}
+
+/* Modal */
+.modal-mask {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background: #FFFFFF;
+  border-radius: 16rpx;
+  padding: 40rpx;
+  width: 560rpx;
+}
+
+.modal-title {
+  text-align: center;
+  font-size: 32rpx;
+  color: #333;
+  margin-bottom: 40rpx;
+}
+
+.picker-view {
+  text-align: center;
+  padding: 20rpx 0;
+  font-size: 28rpx;
+  color: #333;
+  margin-bottom: 40rpx;
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: space-between;
+}
+
+.modal-btn {
+  width: 240rpx;
+  height: 72rpx;
+  border-radius: 36rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 28rpx;
+}
+
+.modal-btn.cancel {
+  background: #F5F5F5;
+  color: #666;
+}
+
+.modal-btn.confirm {
+  background: #333;
+  color: #fff;
+}

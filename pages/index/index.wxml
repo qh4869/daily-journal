@@ -1,0 +1,56 @@
+<view class="container">
+  <!-- Date navigation -->
+  <view class="date-nav">
+    <view class="date-btn prev" bindtap="onPrevDay">
+      <text>&lt;</text>
+    </view>
+    <view class="date-display">{{displayDate}}</view>
+    <view class="date-btn next" bindtap="onNextDay">
+      <text>&gt;</text>
+    </view>
+  </view>
+
+  <!-- Items list -->
+  <view class="items-list">
+    <view class="item" wx:for="{{items}}" wx:key="_id">
+      <text class="item-content">{{item.content}}</text>
+      <view wx:if="{{item.status === 'pending'}}" class="pending-tag" bindtap="onPendingTagTap" data-id="{{item._id}}">
+        待完成
+      </view>
+    </view>
+    <view wx:if="{{items.length === 0}}" class="empty-state">
+      今天还没有记录事项
+    </view>
+  </view>
+
+  <!-- Add button -->
+  <view class="add-btn" bindtap="onAddItem">
+    <text class="add-icon">+</text>
+    <text class="add-text">添加事项</text>
+  </view>
+</view>
+
+<!-- Complete confirmation modal -->
+<view wx:if="{{showCompleteModal}}" class="modal-mask">
+  <view class="modal-content">
+    <view class="modal-title">确认完成？</view>
+    <view class="modal-actions">
+      <view class="modal-btn cancel" bindtap="onCompleteModalCancel">取消</view>
+      <view class="modal-btn confirm" bindtap="onCompleteModalConfirm">确认完成</view>
+    </view>
+  </view>
+</view>
+
+<!-- Reschedule modal -->
+<view wx:if="{{showRescheduleModal}}" class="modal-mask">
+  <view class="modal-content">
+    <view class="modal-title">选择延期日期</view>
+    <picker mode="date" value="{{rescheduleDate}}" end="{{maxDate}}" bindchange="onDateChange">
+      <view class="picker-view">{{rescheduleDate || '请选择日期'}}</view>
+    </picker>
+    <view class="modal-actions">
+      <view class="modal-btn cancel" bindtap="onRescheduleModalCancel">取消</view>
+      <view class="modal-btn confirm" bindtap="onRescheduleModalConfirm">确定</view>
+    </view>
+  </view>
+</view>
