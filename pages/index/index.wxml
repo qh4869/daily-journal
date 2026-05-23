@@ -61,8 +61,8 @@
       </view>
       <view class="week-day-items">
         <view class="week-item" wx:for="{{item.items}}" wx:for-item="dayItem" wx:key="_id">
-          <text class="week-item-content" bindtap="onItemTap" data-id="{{dayItem._id}}">{{dayItem.content}}</text>
-          <view wx:if="{{dayItem.status === 'pending'}}" class="pending-tag" bindtap="onPendingTagTap" data-id="{{dayItem._id}}">
+          <text class="week-item-content">{{dayItem.content}}</text>
+          <view wx:if="{{dayItem.status === 'pending'}}" class="pending-tag">
             待完成
           </view>
         </view>
@@ -73,8 +73,8 @@
     </view>
   </view>
 
-  <!-- Add button -->
-  <view class="add-btn" bindtap="onAddItem">
+  <!-- Add button (only in day view) -->
+  <view class="add-btn" wx:if="{{viewMode === 'day'}}" bindtap="onAddItem">
     <text class="add-icon">+</text>
     <text class="add-text">添加事项</text>
   </view>
