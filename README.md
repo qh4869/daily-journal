@@ -30,16 +30,6 @@
 6. 本地调试，完善功能
 7. 上传并部署云函数 `cleanup`
 
-## 配置说明
-
-| 文件 | 说明 | 是否提交到 git |
-|------|------|----------------|
-| `project.config.json` | 公共配置（构建、项目结构） | ✅ 是 |
-| `project.private.config.json` | 私有配置（appid、libVersion） | ❌ 否 |
-| `project.private.config.json.example` | 私有配置模板 | ✅ 是 |
-| `config.js` | 云环境 ID（本地开发） | ❌ 否 |
-| `config.example.js` | 云环境 ID 模板 | ✅ 是 |
-
 ## 数据库结构
 
 ### items 集合
