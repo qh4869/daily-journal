@@ -520,5 +520,6 @@ Page({
     } else {
       this.loadWeekItems();
     }
+    this.loadPendingItems();
   }
 });
