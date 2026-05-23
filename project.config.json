@@ -3,7 +3,6 @@
   "cloudbaseRoot": "",
   "miniprogramRoot": "./",
   "setting": {
-    "urlCheck": false,
     "es6": true,
     "enhance": true,
     "postcss": true,
@@ -15,7 +14,6 @@
     "packNpmRelationList": [],
     "minifyWXSS": true,
     "minifyWXML": true,
-    "localPlugins": false,
     "disableUseStrict": false,
     "useCompilerPlugins": false,
     "condition": false,
@@ -27,15 +25,13 @@
       "outputPath": ""
     }
   },
-  "appid": "wxe0f0e35c8fd9d755",
+  "appid": "your-appid",
   "projectname": "daily-journal",
-  "libVersion": "2.19.4",
   "compileType": "miniprogram",
   "cloudfunctionTemplateRoot": "cloudfunctionTemplate/",
   "simulatorPluginLibVersion": {},
   "packOptions": {
     "ignore": [],
     "include": []
-  },
-  "editorSetting": {}
+  }
 }

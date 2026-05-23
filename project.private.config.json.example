@@ -1,0 +1,12 @@
+{
+  "appid": "your-appid",
+  "libVersion": "2.19.4",
+  "setting": {
+    "urlCheck": false,
+    "useLanDebug": false,
+    "useStaticServer": false,
+    "compileHotReLoad": true,
+    "ignoreDevUnusedFiles": true,
+    "bigPackageSizeSupport": false
+  }
+}
